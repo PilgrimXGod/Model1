@@ -4,48 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Classification</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
-<h1>News Category Classifier</h1>
-<input id="inputText" type="text" placeholder="Enter news text">
-<button onclick="predictNewsCategory()">Predict</button>
-<div id="result"></div>
-
-<script>
-    let model;
-
-    // Завантаження моделі
-    async function loadModel() {
-        model = await tf.loadLayersModel('tfjs_model/model.json');
-        console.log('Model loaded successfully');
-    }
-
-    // Передбачення
-    async function predictNewsCategory() {
-        if (!model) {
-            console.error('Model not loaded yet!');
-            return;
-        }
-
-        const inputText = document.getElementById('inputText').value;
-        const processedInput = preprocessInput(inputText);
-
-        const prediction = model.predict(processedInput);
-        prediction.array().then(result => {
-            console.log(result);
-            document.getElementById('result').innerText = JSON.stringify(result);
-        });
-    }
-
-    // Попередня обробка введеного тексту
-    function preprocessInput(text) {
-        // Приклад токенізації для моделі
-        const tensor = tf.tensor([[1, 2, 3, 4]]); // Замініть на реальну токенізацію
-        return tensor;
-    }
-
-    loadModel();
-</script>
+<div class="container">
+    <h1>News Classification</h1>
+    <textarea id="news-input" placeholder="Enter your news headline..."></textarea>
+    <button id="predict-btn">Classify</button>
+    <div id="result"></div>
+</div>
 </body>
 </html>
