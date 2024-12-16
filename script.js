@@ -9,27 +9,26 @@ async function loadModel() {
     }
 }
 
-async function predictNewsCategory() {
+document.getElementById('predict-btn').addEventListener('click', async () => {
     if (!model) {
         console.error('Model is not loaded yet!');
         return;
     }
 
-    const inputText = document.getElementById('inputText').value;
+    const inputText = document.getElementById('news-input').value;
     const processedInput = preprocessInput(inputText);
 
-    const prediction = model.predict(processedInput);
-    prediction.array().then(result => {
-        console.log('Prediction:', result);
-        document.getElementById('result').innerText = JSON.stringify(result);
-    });
-}
+    const prediction = await model.predict(processedInput);
+    const result = await prediction.array();
+    console.log('Prediction:', result);
+    document.getElementById('result').innerText = JSON.stringify(result);
+});
 
 function preprocessInput(text) {
-    // Тут потрібно токенізувати та підготувати введений текст у формат тензора
-    const tensor = tf.tensor2d([[1, 2, 3, 4, 0, 0, 0, 0, 0, 0]]); // Замініть це на токенізацію
+    // Tokenize and prepare the input text into a tensor format
+    const tensor = tf.tensor2d([[1, 2, 3, 4, 0, 0, 0, 0, 0, 0]]); // Replace this with your tokenization logic
     return tensor;
 }
 
-// Завантаження моделі під час запуску сторінки
+// Load the model when the page loads
 loadModel();
